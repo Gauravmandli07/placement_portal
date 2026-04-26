@@ -1,0 +1,71 @@
+ {% extends "placement_cell/pc_base.html" %}
+ {% load static %}
+ {% block content %}
+ <!-- ========== APPROVE COMPANIES PAGE ========== -->
+            <div id="page-approve-companies" class="dashboard-page">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-check-circle me-2"></i>Pending Approvals Companies List</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted mb-4">Review and approve pending company registration requests.</p>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Company Name</th>
+                                        <th>Contact Person Name </th>
+                                        <th> Designation </th>
+                                        <th>Email</th>
+                                        <th>Industry</th>
+                                        <th>Registration Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for company in companies %}
+                                    <tr>
+                                        <td>{{ company.company_name }}</td>
+                                        <td>{{ company.cp_name }} </td>
+                                        <td>{{ company.designation  }}</td>
+                                        <td>{{ company.company_email }}</td>
+                                        <td>{{ company.industry }}</td>
+                                        <td>{{ company.created_at|date:"d M Y" }}</td>
+
+
+                                        <td>
+                                            <button class="btn btn-sm btn-primary view-company-details" data-slug="{{ company.slug }}">
+                                            View Details
+                                        </button>
+        
+                                            <!-- Approve -->  
+                                         <form method="POST" action="{% url 'placement_cell:approve_company' company.pk %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-success me-1 approvecompany" data-company-id="1" data-company-name="StartupXYZ">
+                                                <i class="fas fa-check me-1"></i> Approve
+                                            </button>
+                                        </form>
+
+                                                <!-- Reject -->
+                                     <form method="POST" action="{% url 'placement_cell:reject_company' company.pk %}">
+                                                        {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-danger reject-company" data-company-id="1" data-company-name="StartupXYZ">
+                                                <i class="fas fa-times me-1"></i> Reject
+                                            </button>
+                                        </form>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted">
+                                            No pending companies found.
+                                        </td>
+                                    </tr>
+                                    {% endfor %}                       
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+  {% endblock content %}

@@ -1,0 +1,52 @@
+{% extends "company/company_base.html" %}
+ {% load static %}
+ {% block content %}
+
+
+      <div class="container-fluid py-4">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">
+              <i class="fas fa-user-check me-2"></i>Selected Students
+            </h5>
+          </div>
+
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead>
+                  <tr>
+                    <th>Job Requirement</th>
+                    <th>Student Name</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for app in applications %}
+                  <tr>
+                    <td>{{ app.job.job_title }}</td>
+                    <td>{{ app.student.user.get_full_name }}</td>
+                    <td>{{ app.student.user.email }}</td>
+                    <td>{{ app.student.phone }}</td>
+                    <td>
+                      {% if app.status == "SELECTED" %}
+                        <span class="badge badge-success">
+                            <i class="fas fa-trophy me-1"></i> Selected
+                        </span>
+                      {% endif %}    
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+{% endblock content %}
+

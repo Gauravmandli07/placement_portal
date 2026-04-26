@@ -1,0 +1,159 @@
+{% extends "company/company_base.html" %}
+ {% load static %}
+ {% block content %}
+         <!-- ========== DASHBOARD PAGE ========== -->
+            <div id="page-dashboard" class="dashboard-page active">
+                <div class="mb-4">
+                    <h1 class="dashboard-greeting">Welcome, {{ company.company_name|upper }}</h1>
+                    <p class="dashboard-greeting-sub">Manage your job postings, review applications, and connect with
+                        talented students.</p>
+                </div>
+
+                <!-- Stats: Total Jobs Posted, Active Jobs, Total Applicants -->
+                <div class="row mb-4">
+                    <div class="col-md-4 mb-4">
+                        <div class="stat-card">
+                            <i class="fas fa-briefcase fa-2x mb-2"></i>
+                            <h3>1</h3>
+                            <p>Total Jobs Posted</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="stat-card warning">
+                            <i class="fas fa-clipboard-list fa-2x mb-2"></i>
+                            <h3>0</h3>
+                            <p>Active Jobs</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="stat-card success">
+                            <i class="fas fa-users fa-2x mb-2"></i>
+                            <h3>10</h3>
+                            <p>Total Applicants</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="card company-profile-card h-100">
+                            <div class="card-header">
+                                <h5 class="mb-0 fw-semibold"><i class="fas fa-building me-2 text-success"></i>Company
+                                    Summary</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-2"><strong>Company Name:</strong> {{ company.company_name|upper}}</p>
+                                <p class="mb-2"><strong>Company Email:</strong> {{ company.company_email }}</p>
+                                <p class="mb-2"><strong>Phone:</strong> {{ company.phone }}</p>
+                                <p class="mb-2"><strong>GST Number:</strong> {{ company.gst_number }}</p>                                            
+                                <p class="mb-2"><strong>Industry:</strong> {{ company.industry }}</p>
+                                <p class="mb-2"><strong>Company Size:</strong> {{ company.company_size }}</p>
+
+                                <p class="mb-2"><strong>Website:</strong> 
+                                    <a href="{{ company.website }}" target="_blank">{{ company.website }}</a>
+                                </p>
+                                <p class="mb-2"><strong>Contact Person:</strong> {{ company.cp_name }}</p>
+                                <p class="mb-2"><strong>Contact Email:</strong> {{ company.cp_email }}</p>
+                                <p class="mb-2"><strong>Contact Phone:</strong> {{ company.cp_phone }}</p>
+                                <p class="mb-2"><strong>Designation:</strong> {{ company.designation }}</p>
+                                <p class="mb-2"><strong>Address:</strong> {{ company.address }}</p>
+                                <p class="mb-2"><strong>Description:</strong> {{ company.description  }}</p>
+                                <p class="mb-3"><strong>Status:</strong> <span class="badge
+                                   {% if company.status == 'approved' %}bg-success
+                                    {% elif company.status == 'pending' %}bg-warning
+                                    {% elif company.status == 'rejected' %}bg-danger
+                                    {% endif %}
+                                    ">
+                                 {{ company.get_status_display }}
+                            </span>
+                                </p>
+                                {% if company.reg_certificate %}
+
+                                <p class="mb-2"><strong>Registration Certificate:</strong> 
+                            
+                                <a href="{{ company.reg_certificate.url }}" 
+                                class="btn btn-sm btn-outline-primary ms-2" 
+                                target="_blank">  
+                                <i class="fas fa-file-pdf me-1"></i> View Certificate
+                            </a>
+                        </p>                              
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0 fw-semibold"><i class="fas fa-file-alt me-2"></i>Recent Applications
+                                </h5>
+                                <a href="#" class="nav-link-dashboard btn btn-sm btn-outline-primary"
+                                    data-page="page-current-requirements">View all</a>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="recent-app-item px-3">
+                                    <div>
+                                        <strong class="d-block">Gaurav Mandli</strong>
+                                        <small class="text-muted">Software Engineer — 10 March</small>
+                                    </div>
+                                    <span class="badge badge-applied"><i class="fas fa-paper-plane"></i> Applied</span>
+                                </div>
+                                <div class="recent-app-item px-3">
+                                    <div>
+                                        <strong class="d-block">Pratik Gaurang</strong>
+                                        <small class="text-muted">Software Engineer — 19 Feb</small>
+                                    </div>
+                                    <span class="badge badge-pending"><i class="fas fa-clock"></i> Under Review</span>
+                                </div>
+                                <div class="recent-app-item px-3">
+                                    <div>
+                                        <strong class="d-block">Daksh Patel</strong>
+                                        <small class="text-muted">Backend Developer — 17 Feb</small>
+                                    </div>
+                                    <span class="badge badge-pending"><i class="fas fa-search"></i> Under Review</span>
+                                </div>
+                                <div class="recent-app-item px-3">
+                                    <div>
+                                        <strong class="d-block">Dhruv Mandli</strong>
+                                        <small class="text-muted">Frontend Developer — 15 Feb </small>
+                                    </div>
+                                    <span class="badge badge-selected"><i class="fas fa-check-circle"></i>
+                                        Selected</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0 fw-semibold"><i class="fas fa-bolt me-2"></i>Quick Actions</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-2">
+                                    <div class="col-md-4">
+                                        <a href="{% url 'companies:add_requirements' %}" class="nav-link-dashboard btn btn-primary w-100"
+                                            data-page="page-add-requirement">
+                                            <i class="fas fa-plus me-2"></i>Post New Requirement
+                                        </a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="{% url 'companies:current_requirements' %}" class="nav-link-dashboard btn btn-outline-primary w-100"
+                                            data-page="page-current-requirements">
+                                            <i class="fas fa-briefcase me-2"></i>View Current Requirements
+                                        </a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="{% url 'companies:old_requirements' %}" class="nav-link-dashboard btn btn-outline-primary w-100"
+                                            data-page="page-old-requirements">
+                                            <i class="fas fa-history me-2"></i>View Old Requirements
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endblock content %}

@@ -1,0 +1,52 @@
+{% extends 'student/student_base.html' %}
+{% load static %}
+{% block content %}
+<!-- ========== SHORTLISTED COMPANIES PAGE ========== -->
+<div id="page-shortlisted-companies" class="dashboard-page">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">
+          <i class="fas fa-calendar-check me-2"></i>Shortlisted Companies
+        </h5>
+      </div>
+      <div class="card-body">  
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead>
+              <tr>
+                <th>Company Name</th>
+                <th>Job Requirement</th>
+                <th>Eligibility</th>
+                <th>Required Skills</th>
+                
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for app in applications %}
+              <tr>
+                <td>{{ app.job.company.company_name }}</td>
+                <td>{{ app.job.job_title }}</td>
+                <td>{{ app.job.eligibility }}</td>
+                <td>{{ app.job.skills }}</td>
+                <td>
+                  <span class="badge badge-pending">
+                    <i class="fas fa-check"></i>Shortlisted
+                  </span>
+                </td>
+              </tr>
+              {% empty %} 
+              <tr>
+                  <td colspan="4" class="text-center text-muted">
+                      No shortlisted companies yet.
+                  </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,47 @@
+"""
+URL configuration for placement_portal project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/6.0/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path,include
+from django.conf import settings
+from django.conf.urls.static import static
+from django.conf.urls import handler404, handler500
+from placement_portal import views
+
+
+
+urlpatterns = [
+
+    path('', views.home, name='home'),  # 👈 MAIN PAGE
+
+    path('policies/', views.policies, name='policies'),
+    path('team/', views.team, name='team'),
+    path('contact/', views.contact_view, name='contact'),
+
+
+    path('admin/', admin.site.urls),
+    path('students/',include('students.urls')),
+    path('company/',include('companies.urls')),
+    path('placement_cell/',include('placement_cell.urls')),
+    path('accounts/', include('accounts.urls')),
+    path('jobs/', include('jobs.urls')),
+
+]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    
+handler404 = "placement_portal.views.custom_404"
+handler500 = "placement_portal.views.custom_500"

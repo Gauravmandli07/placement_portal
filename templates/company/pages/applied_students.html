@@ -1,0 +1,139 @@
+{% extends "company/company_base.html" %}
+ {% load static %}
+ {% block content %}
+
+
+      <div class="container-fluid py-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+          <div>
+            <h4 class="mb-1 fw-semibold">
+              Applied Students – <span id="appliedStudentsJobTitle">{{ job.job_title }}</span>
+            </h4>
+            <p class="text-muted mb-0">
+              Applied Position: <span id="appliedStudentsPosition">{{ job.job_title }}</span>
+            </p>
+          </div>
+          <span class="badge badge-info" id="appliedStudentsCountBadge">
+            <i class="fas fa-users"></i> {{ total_applications }} Applicants
+          </span>
+        </div>
+
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+              <i class="fas fa-user-check me-2 text-primary"></i>Applied Students List
+            </h5>
+            <span class="badge badge-pending">
+              <i class="fas fa-clock"></i> Under Review
+            </span>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead>
+                  <tr>
+                    <th>Student Name</th>
+                    <th>Branch</th>
+                    <th>CGPA</th>
+                    <th>Mobile No.</th>
+                    <th>E-Mail</th>
+                    <th>Resume</th>
+                    <th>View</th>
+                    <th>Actions</th>
+                    <th>Status</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for app in applications %}
+                    <tr>
+
+                      <!-- Student Name -->
+                      <td>{{ app.student.user.get_full_name }}</td>
+
+                      <!-- Branch -->
+                      <td>{{ app.student.course }}</td>
+
+                      <!-- CGPA -->
+                      <td>{{ app.student.cgpa }}</td>
+
+                      <!-- Mobile no  -->
+                      <td>{{ app.student.phone}}</td>
+
+                      <!-- Email -->
+                      <td>{{ app.student.user.email}}</td>
+
+                       <!-- Resume -->
+                      <td>
+                        <a href="{{ app.student.resume.url }}" target="_blank"
+                          class="btn btn-sm btn-outline-secondary">
+                          <i class="fas fa-file-pdf me-1"></i> View PDF
+                        </a>
+                      </td>
+
+                      <!-- 👁️ View -->
+                      <td>
+                          <button class="btn btn-sm view-student-details-btn btn-outline-primary" data-student-id="{{ app.student.id }}">
+                          <i class="fas fa-eye"></i>
+                          </button>
+                        </td>
+
+                      <!-- Actions -->
+                      <td>
+                        <div class="d-flex align-items-center gap-2">
+                              {% if app.status == "APPLIED" %}
+
+                          <!-- ✔ Select for shortlisted -->
+                          <button class="btn btn-sm btn-success status-btn"  data-url="{% url 'companies:update_application_status' %}" data-id="{{ app.id }}" data-status="SHORTLISTED">
+                            <i class="fas fa-check"></i>
+                          </button>
+
+                          <!-- ❌ Reject -->
+                          <button class="btn btn-sm btn-danger status-btn"  data-url="{% url 'companies:update_application_status' %}" data-id="{{ app.id }}" data-status="REJECTED">
+                            <i class="fas fa-times"></i>
+                          </button>
+
+                            {% else %}
+                        <span class="text-muted">No Action</span>
+                      {% endif %}
+                  </div>
+                      </td>
+                          <!-- Status -->
+                          <td>
+                            {% if app.status == "APPLIED" %}
+                              <span class="badge badge-pending status-badge">
+                                <i class="fas fa-clock"></i> Under Review
+                              </span>
+                            {% elif app.status == "SHORTLISTED" %}
+                              <span class="badge badge-info status-badge">
+                                <i class="fas fa-user-check"> </i> Shortlisted
+                              </span>
+                            {% elif app.status == "REJECTED" %}
+                              <span class="badge badge-danger status-badge">
+                                <i class="fas fa-xmark"></i> Rejected
+                              </span>
+                            {% endif %}
+                            </td>
+
+                  </tr>
+  {% empty %}
+  <tr>
+    <td colspan="9" class="text-center text-muted">
+      No students applied yet
+    </td>
+  </tr>
+  {% endfor %}
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <form style="display:none;">
+  {% csrf_token %}
+</form>   
+{% endblock content %}

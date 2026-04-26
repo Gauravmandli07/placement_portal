@@ -1,0 +1,108 @@
+          {% extends 'student/student_base.html' %}
+          {% load static %}
+          {% block content %}
+          <!-- ========== APPLIED JOBS PAGE ========== -->
+            <div id="page-applied-jobs" class="dashboard-page">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>Applied Jobs</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Job Title</th>
+                                        <th>Company</th>
+                                        <th>Applied Date</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for app in applications %}
+                                    <tr>
+                                        <td>{{ app.job.job_title }}</td>
+                                        <td>{{ app.job.company.company_name }}</td>
+                                        <td>{{ app.applied_at|date:"d M Y" }}</td>
+                                        <!--status-->
+                                        <td>
+
+                                            {% if app.status == "APPLIED" %}
+                                                <span class="badge badge-applied">
+                                                    <i class="fas fa-paper-plane"></i> Applied
+                                                </span>
+
+                                            {% elif app.status == "UNDER_REVIEW" %}
+                                                <span class="badge badge-pending">
+                                                    <i class="fas fa-clock"></i> Under Review
+                                                </span>
+
+                                              {% elif app.status == "SHORTLISTED" %}
+                                                <span class="badge badge-pending">
+                                                    <i class="fas fa-check"></i> Shortlisted
+                                                </span>
+
+                                            {% elif app.status == "INTERVIEW" %}
+                                                <span class="badge badge-info">
+                                                    <i class="fas fa-user-clock"></i> Interview
+                                                </span>
+                                                
+                                            {% elif app.status == "SELECTED" %}
+                                                <span class="badge badge-selected">
+                                                    <i class="fas fa-check-circle"></i> Selected
+                                                </span>
+
+                                            {% elif app.status == "REJECTED" %}
+                                                <span class="badge badge-rejected">
+                                                    <i class="fas fa-times-circle"></i> Rejected
+                                                </span>
+                                            {% endif %}
+                                          
+                                        </td>                                        
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary view-application-details btn-hover-ripple" 
+                                                data-job-title="{{ app.job.job_title }}"
+                                                data-company="{{ app.job.company.company_name }}"
+                                                data-status="{{ app.status }}">
+                                                View Details
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted">
+                                            No applications yet
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% comment %} <div class="d-flex justify-content-center mt-3">
+    <ul class="pagination">
+
+        {% if applications.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ applications.previous_page_number }}">Previous</a>
+            </li>
+        {% endif %}
+
+        <li class="page-item active">
+            <span class="page-link">
+                Page {{ applications.number }} of {{ applications.paginator.num_pages }}
+            </span>
+        </li>
+
+        {% if applications.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ applications.next_page_number }}">Next</a>
+            </li>
+        {% endif %}
+
+    </ul>
+</div> {% endcomment %}
+                    </div>
+                </div>
+            </div>
+{% endblock %}
