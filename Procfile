@@ -1,1 +1,1 @@
-web: gunicorn placement_portal.wsgi
+web: gunicorn PLACEMENT_PORTAL.wsgi
